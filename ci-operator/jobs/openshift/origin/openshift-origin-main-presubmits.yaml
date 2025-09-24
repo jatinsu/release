@@ -5917,7 +5917,7 @@ presubmits:
     - ^master$
     - ^master-
     cluster: build09
-    context: ci/prow/test-image-stream-import-mode
+    context: ci/prow/e2e-test-image-stream-import-mode
     decorate: true
     decoration_config:
       timeout: 8h0m0s
