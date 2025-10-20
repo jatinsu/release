@@ -19,7 +19,9 @@ resources:
       cpu: "2"
       memory: 2Gi
 tests:
-- as: e2e-tests
+- as: e2e-ocp-helm
+  capabilities:
+  - gcp
   cluster_claim:
     architecture: amd64
     cloud: aws
@@ -29,16 +31,18 @@ tests:
     product: ocp
     timeout: 1h0m0s
     version: "4.18"
-  skip_if_only_changed: ^docs/|showcase-docs/|^\.changeset/|CONTRIBUTING\.md|OWNERS|README\.md|USAGE_DATA\.md|^scripts/|^\.github/|\.threatmodel/|^ui/|\.md|\\.mdc$
+  skip_if_only_changed: ^docs/|showcase-docs/|^\.changeset/|CONTRIBUTING\.md|OWNERS|README\.md|USAGE_DATA\.md|^scripts/|^\.github/|\.threatmodel/|^ui/|\.md|\\.mdc|\\.toml$
   steps:
     post:
     - ref: redhat-developer-rhdh-send-data-router
     - chain: gather
     test:
-    - ref: redhat-developer-rhdh
+    - ref: redhat-developer-rhdh-ocp-helm
     workflow: generic-claim
 - always_run: false
-  as: e2e-tests-nightly
+  as: e2e-ocp-helm-nightly
+  capabilities:
+  - gcp
   cluster_claim:
     architecture: amd64
     cloud: aws
@@ -57,10 +61,12 @@ tests:
     - ref: redhat-developer-rhdh-send-alert
     - chain: gather
     test:
-    - ref: redhat-developer-rhdh-nightly
+    - ref: redhat-developer-rhdh-ocp-helm-nightly
     workflow: generic-claim
 - always_run: false
-  as: e2e-tests-nightly-ocp-v4-17
+  as: e2e-ocp-v4-17-helm-nightly
+  capabilities:
+  - gcp
   cluster_claim:
     architecture: amd64
     cloud: aws
@@ -81,10 +87,12 @@ tests:
     - ref: redhat-developer-rhdh-send-alert
     - chain: gather
     test:
-    - ref: redhat-developer-rhdh-nightly
+    - ref: redhat-developer-rhdh-ocp-helm-nightly
     workflow: generic-claim
 - always_run: false
-  as: e2e-tests-nightly-ocp-v4-19
+  as: e2e-ocp-v4-19-helm-nightly
+  capabilities:
+  - gcp
   cluster_claim:
     architecture: amd64
     cloud: aws
@@ -105,10 +113,12 @@ tests:
     - ref: redhat-developer-rhdh-send-alert
     - chain: gather
     test:
-    - ref: redhat-developer-rhdh-nightly
+    - ref: redhat-developer-rhdh-ocp-helm-nightly
     workflow: generic-claim
 - always_run: false
-  as: e2e-tests-aks-helm-nightly
+  as: e2e-aks-helm-nightly
+  capabilities:
+  - gcp
   cron: 50 6 * * TUE,THU,SAT,SUN
   optional: true
   presubmit: true
@@ -121,7 +131,9 @@ tests:
     - ref: redhat-developer-rhdh-aks-helm-nightly
     workflow: redhat-developer-rhdh-aks-mapt
 - always_run: false
-  as: e2e-tests-aks-operator-nightly
+  as: e2e-aks-operator-nightly
+  capabilities:
+  - gcp
   cron: 0 7 * * TUE,THU,SAT,SUN
   optional: true
   presubmit: true
@@ -134,7 +146,9 @@ tests:
     - ref: redhat-developer-rhdh-aks-operator-nightly
     workflow: redhat-developer-rhdh-aks-mapt
 - always_run: false
-  as: e2e-tests-eks-helm-nightly
+  as: e2e-eks-helm-nightly
+  capabilities:
+  - gcp
   cron: 0 7 * * TUE,THU,SAT,SUN
   optional: true
   presubmit: true
@@ -147,7 +161,9 @@ tests:
     - ref: redhat-developer-rhdh-eks-helm-nightly
     workflow: redhat-developer-rhdh-eks-mapt
 - always_run: false
-  as: e2e-tests-eks-operator-nightly
+  as: e2e-eks-operator-nightly
+  capabilities:
+  - gcp
   cron: 0 7 * * TUE,THU,SAT,SUN
   optional: true
   presubmit: true
@@ -160,7 +176,9 @@ tests:
     - ref: redhat-developer-rhdh-eks-operator-nightly
     workflow: redhat-developer-rhdh-eks-mapt
 - always_run: false
-  as: e2e-tests-gke-helm-nightly
+  as: e2e-gke-helm-nightly
+  capabilities:
+  - gcp
   cron: 0 7 * * TUE,THU,SAT,SUN
   optional: true
   presubmit: true
@@ -171,7 +189,9 @@ tests:
     test:
     - ref: redhat-developer-rhdh-gke-helm-nightly
 - always_run: false
-  as: e2e-tests-gke-operator-nightly
+  as: e2e-gke-operator-nightly
+  capabilities:
+  - gcp
   cron: 0 9 * * TUE,THU,SAT,SUN
   optional: true
   presubmit: true
@@ -182,7 +202,9 @@ tests:
     test:
     - ref: redhat-developer-rhdh-gke-operator-nightly
 - always_run: false
-  as: e2e-tests-operator-nightly
+  as: e2e-ocp-operator-nightly
+  capabilities:
+  - gcp
   cluster_claim:
     architecture: amd64
     cloud: aws
@@ -201,10 +223,12 @@ tests:
     - ref: redhat-developer-rhdh-send-alert
     - chain: gather
     test:
-    - ref: redhat-developer-rhdh-operator-nightly
+    - ref: redhat-developer-rhdh-ocp-operator-nightly
     workflow: generic-claim
 - always_run: false
   as: cleanup-mapt-destroy-orphaned-aks-clusters
+  capabilities:
+  - gcp
   cron: 0 2 * * SUN
   optional: true
   presubmit: true
@@ -215,6 +239,8 @@ tests:
     - ref: redhat-developer-rhdh-aks-mapt-orphaned-destroy
 - always_run: false
   as: cleanup-mapt-destroy-orphaned-eks-clusters
+  capabilities:
+  - gcp
   cron: 0 2 * * SUN
   optional: true
   presubmit: true
@@ -224,8 +250,10 @@ tests:
     test:
     - ref: redhat-developer-rhdh-eks-mapt-orphaned-destroy
 - always_run: false
-  as: e2e-tests-osd-gcp-helm-nightly
-  cron: 0 10 * * TUE,THU,SAT,SUN
+  as: e2e-osd-gcp-helm-nightly
+  capabilities:
+  - gcp
+  cron: 30 10 * * TUE,THU,SAT,SUN
   optional: true
   presubmit: true
   steps:
@@ -236,12 +264,14 @@ tests:
     - ref: redhat-developer-rhdh-send-alert
     - ref: redhat-developer-rhdh-osd-gcp-claim-cluster-delete
     test:
-    - ref: redhat-developer-rhdh-osd-gcp-nightly
+    - ref: redhat-developer-rhdh-osd-gcp-helm-nightly
     workflow: redhat-developer-rhdh-osd-gcp-claim-cluster
   timeout: 3h40m0s
 - always_run: false
-  as: e2e-tests-osd-gcp-operator-nightly
-  cron: 0 8 * * TUE,THU,SAT,SUN
+  as: e2e-osd-gcp-operator-nightly
+  capabilities:
+  - gcp
+  cron: 30 8 * * TUE,THU,SAT,SUN
   optional: true
   presubmit: true
   steps:
@@ -252,17 +282,21 @@ tests:
     - ref: redhat-developer-rhdh-send-alert
     - ref: redhat-developer-rhdh-osd-gcp-claim-cluster-delete
     test:
-    - ref: redhat-developer-rhdh-osd-gcp-nightly
+    - ref: redhat-developer-rhdh-osd-gcp-helm-nightly
     workflow: redhat-developer-rhdh-osd-gcp-claim-cluster
   timeout: 3h40m0s
-- as: clean-up-osd-gcp-cluster
+- as: cleanup-osd-gcp-cluster
+  capabilities:
+  - gcp
   cron: 0 17 * * *
   steps:
     test:
-    - ref: redhat-developer-rhdh-osd-gcp-claim-cluster-clean-up
+    - ref: redhat-developer-rhdh-osd-gcp-claim-cluster-cleanup
   timeout: 1h0m0s
 - always_run: false
-  as: e2e-tests-auth-providers-nightly
+  as: e2e-ocp-operator-auth-providers-nightly
+  capabilities:
+  - gcp
   cluster_claim:
     architecture: amd64
     cloud: aws
@@ -277,10 +311,12 @@ tests:
   presubmit: true
   steps:
     test:
-    - ref: redhat-developer-rhdh-nightly
+    - ref: redhat-developer-rhdh-ocp-operator-nightly
     workflow: generic-claim
 - always_run: false
-  as: e2e-tests-upgrade-nightly
+  as: e2e-ocp-helm-upgrade-nightly
+  capabilities:
+  - gcp
   cluster_claim:
     architecture: amd64
     cloud: aws
@@ -290,15 +326,17 @@ tests:
     product: ocp
     timeout: 1h0m0s
     version: "4.18"
-  cron: 0 8 * * TUE,THU,SAT,SUN
+  cron: 0 7 * * TUE,THU,SAT,SUN
   optional: true
   presubmit: true
   steps:
     test:
-    - ref: redhat-developer-rhdh-upgrade-nightly
+    - ref: redhat-developer-rhdh-ocp-helm-upgrade-nightly
     workflow: generic-claim
 - always_run: false
-  as: e2e-tests-sealight-helm-nightly
+  as: e2e-ocp-helm-sealights-nightly
+  capabilities:
+  - gcp
   cluster_claim:
     architecture: amd64
     cloud: aws
@@ -313,7 +351,7 @@ tests:
   presubmit: true
   steps:
     test:
-    - ref: redhat-developer-rhdh-nightly
+    - ref: redhat-developer-rhdh-ocp-helm-nightly
     workflow: generic-claim
 zz_generated_metadata:
   branch: main

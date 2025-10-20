@@ -46,6 +46,8 @@ tests:
       ipv6_enabled: "false"
       masters: "3"
       workers: "0"
+    test:
+    - chain: cucushift-installer-check-cluster-health
     workflow: baremetal-lab-agent-install-network-dynamic
 - as: baremetal-compact-agent-ipv4-static-connected-f7
   capabilities:
@@ -61,6 +63,8 @@ tests:
       ipv6_enabled: "false"
       masters: "3"
       workers: "0"
+    test:
+    - chain: cucushift-installer-check-cluster-health
     workflow: baremetal-lab-agent-install-network-static
 - as: baremetal-compact-agent-ipv4-static-disc-proxy-f7
   capabilities:
@@ -76,11 +80,13 @@ tests:
       ipv6_enabled: "false"
       masters: "3"
       workers: "0"
+    test:
+    - chain: cucushift-installer-check-cluster-health
     workflow: baremetal-lab-agent-install-network-static-disconnected-proxy
-- as: baremetal-pxe-compact-agent-ipv4-static-connected-f14
+- as: baremetal-pxe-compact-agent-ipv4-static-connected-f7
   capabilities:
   - intranet
-  cron: 39 21 1,17 * *
+  cron: 3 13 7,14,21,28 * *
   steps:
     cluster_profile: equinix-ocp-metal-qe
     env:
@@ -91,11 +97,13 @@ tests:
       ipv6_enabled: "false"
       masters: "3"
       workers: "0"
+    test:
+    - chain: cucushift-installer-check-cluster-health
     workflow: baremetal-lab-agent-install-pxe
-- as: baremetal-pxe-ha-agent-ipv4-static-connected-f14
+- as: baremetal-pxe-ha-agent-ipv4-static-connected-f7
   capabilities:
   - intranet
-  cron: 55 16 11,25 * *
+  cron: 25 13 2,9,16,23 * *
   steps:
     cluster_profile: equinix-ocp-metal-qe
     env:
@@ -106,11 +114,13 @@ tests:
       ipv6_enabled: "false"
       masters: "3"
       workers: "2"
+    test:
+    - chain: cucushift-installer-check-cluster-health
     workflow: baremetal-lab-agent-install-pxe
-- as: baremetal-pxe-sno-agent-ipv4-static-connected-f14
+- as: baremetal-pxe-sno-agent-ipv4-static-connected-f7
   capabilities:
   - intranet
-  cron: 2 18 6,22 * *
+  cron: 29 19 2,9,16,23 * *
   steps:
     cluster_profile: equinix-ocp-metal-qe
     env:
@@ -122,6 +132,8 @@ tests:
       ipv6_enabled: "false"
       masters: "1"
       workers: "0"
+    test:
+    - chain: cucushift-installer-check-cluster-health
     workflow: baremetal-lab-agent-install-pxe
 - as: baremetal-sno-agent-ipv4-static-connected-f7
   capabilities:
@@ -138,11 +150,13 @@ tests:
       ipv6_enabled: "false"
       masters: "1"
       workers: "0"
+    test:
+    - chain: cucushift-installer-check-cluster-health
     workflow: baremetal-lab-agent-install-network-static
-- as: baremetal-compact-agent-ipv4-static-fips-day2-f14
+- as: baremetal-compact-agent-ipv4-static-fips-day2-f7
   capabilities:
   - intranet
-  cron: 15 17 11,27 * *
+  cron: 21 15 2,9,16,25 * *
   steps:
     cluster_profile: equinix-ocp-metal-qe
     env:
@@ -156,11 +170,13 @@ tests:
       ipv6_enabled: "false"
       masters: "3"
       workers: "0"
+    test:
+    - chain: cucushift-installer-check-cluster-health
     workflow: baremetal-lab-agent-install-network-static-day2
-- as: baremetal-pxe-compact-agent-ipv4-static-day2-f14
+- as: baremetal-pxe-compact-agent-ipv4-static-day2-f7
   capabilities:
   - intranet
-  cron: 36 17 8,22 * *
+  cron: 44 16 6,13,22,29 * *
   steps:
     cluster_profile: equinix-ocp-metal-qe
     env:
@@ -173,6 +189,8 @@ tests:
       ipv6_enabled: "false"
       masters: "3"
       workers: "0"
+    test:
+    - chain: cucushift-installer-check-cluster-health
     workflow: baremetal-lab-agent-install-pxe-day2
 zz_generated_metadata:
   branch: release-4.19

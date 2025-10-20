@@ -601,6 +601,18 @@ tests:
       enable:
       - observers-resource-watch
     workflow: openshift-e2e-vsphere-ovn
+- as: e2e-vsphere-ovn-vcf9
+  cron: 45 5/12 * * *
+  steps:
+    cluster_profile: vsphere-elastic
+    env:
+      POOLS: vcenter-110.ci.ibmc.devcluster.openshift.com-vcenter-110-dc01-vcenter-110-cl01
+      TEST_SKIPS: provisioning should mount multiple PV pointing to the same storage
+        on the same node
+    observers:
+      enable:
+      - observers-resource-watch
+    workflow: openshift-e2e-vsphere-ovn
 - as: e2e-vsphere-static-ovn
   cron: 45 22 * * 6
   steps:
@@ -640,12 +652,25 @@ tests:
       enable:
       - observers-resource-watch
     workflow: openshift-e2e-vsphere-serial
-  timeout: 5h0m0s
+  timeout: 7h0m0s
 - as: e2e-vsphere-ovn-upi
   cron: 34 7 * * 1
   steps:
     cluster_profile: vsphere-elastic
     env:
+      TEST_SKIPS: provisioning should mount multiple PV pointing to the same storage
+        on the same node
+    observers:
+      enable:
+      - observers-resource-watch
+    workflow: openshift-e2e-vsphere-upi
+  timeout: 5h0m0s
+- as: e2e-vsphere-ovn-upi-vcf9
+  cron: 30 5/12 * * *
+  steps:
+    cluster_profile: vsphere-elastic
+    env:
+      POOLS: vcenter-110.ci.ibmc.devcluster.openshift.com-vcenter-110-dc01-vcenter-110-cl01
       TEST_SKIPS: provisioning should mount multiple PV pointing to the same storage
         on the same node
     observers:
@@ -685,6 +710,19 @@ tests:
     cluster_profile: vsphere-elastic
     env:
       ENABLE_LONG_CSI_CERTIFICATION_TESTS: "true"
+      TEST_SKIPS: provisioning should mount multiple PV pointing to the same storage
+        on the same node
+    observers:
+      enable:
+      - observers-resource-watch
+    workflow: openshift-e2e-vsphere-csi
+- as: e2e-vsphere-ovn-csi-vcf9
+  cron: 15 5/12 * * *
+  steps:
+    cluster_profile: vsphere-elastic
+    env:
+      ENABLE_LONG_CSI_CERTIFICATION_TESTS: "true"
+      POOLS: vcenter-110.ci.ibmc.devcluster.openshift.com-vcenter-110-dc01-vcenter-110-cl01
       TEST_SKIPS: provisioning should mount multiple PV pointing to the same storage
         on the same node
     observers:
@@ -891,6 +929,7 @@ tests:
   timeout: 6h0m0s
 - as: e2e-aws-ovn-serial
   interval: 168h
+  shard_count: 2
   steps:
     cluster_profile: aws-3
     observers:
@@ -913,7 +952,6 @@ tests:
   steps:
     cluster_profile: azure-2
     env:
-      BASE_DOMAIN: ci2.azure.devcluster.openshift.com
       ENABLE_LONG_CSI_CERTIFICATION_TESTS: "true"
     observers:
       enable:
@@ -1010,7 +1048,7 @@ tests:
   restrict_network_access: false
   steps:
     env:
-      SKIP_OCP_INSTALL: "false"
+      SKIP_OCP_INSTALL: "true"
       T5CI_JOB_TYPE: ptp
       T5CI_VERSION: "4.20"
     observers:
